@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Consultas ao banco de dados da YoshTech: resumo do estoque, produtos por categoria, estoque baixo e marcas.">
+  <meta name="theme-color" content="#1570ef">
+  <title>Consultas · YoshTech</title>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231570ef'/%3E%3Cpath d='M18 4 8 18h7l-2 10 11-15h-7z' fill='%23fdb022'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="vendor/bootstrap-icons/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/gerenciar.css">
+</head>
+<body>
+  <a class="visually-hidden-focusable pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="site-header sticky-top">
+    <nav class="navbar navbar-expand-md" aria-label="Navegação principal">
+      <div class="container">
+        <a class="logo" href="index.html">
+          <span class="logo-icone" aria-hidden="true"><i class="bi bi-lightning-charge-fill"></i></span>
+          <span class="logo-nome" data-nome-loja>YoshTech</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal"
+                aria-controls="menu-principal" aria-expanded="false" aria-label="Abrir menu">
+          <i class="bi bi-list" aria-hidden="true"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="menu-principal">
+          <ul class="navbar-nav nav-principal ms-auto align-items-md-center">
+            <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+            <li class="nav-item"><a class="nav-link" href="gerenciar.html">Gerenciar</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="consultas.html">Consultas</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="conteudo" tabindex="-1" class="secao">
+    <div class="container">
+      <div class="cabecalho-secao">
+        <div>
+          <h1 class="titulo-secao">Consultas</h1>
+          <p class="subtitulo-secao">Resultados das consultas feitas no banco de dados, em tempo real.</p>
+        </div>
+      </div>
+
+      <section aria-labelledby="t-resumo" class="mb-4">
+        <h2 id="t-resumo" class="visually-hidden">Resumo</h2>
+        <div class="row g-3" id="cartoes-resumo" aria-busy="true"></div>
+      </section>
+
+      <section class="painel-consulta" aria-labelledby="t-categoria">
+        <h2 id="t-categoria" class="h5">Produtos por categoria</h2>
+        <p class="consulta-rota">Rota: <code>GET /produtos/consultas/por-categoria</code></p>
+        <pre class="consulta-sql"><code>SELECT categoria, COUNT(id), SUM(quantidadeEstoque), AVG(preco), MIN(preco), MAX(preco),
+       SUM(preco * quantidadeEstoque) AS valorEmEstoque
+FROM Produtos GROUP BY categoria ORDER BY valorEmEstoque DESC;</code></pre>
+        <div class="table-responsive" id="area-categoria" aria-busy="true">
+          <table class="table align-middle mb-0">
+            <caption class="visually-hidden">Produtos por categoria</caption>
+            <thead><tr>
+              <th scope="col">Categoria</th><th scope="col" class="text-end">Produtos</th>
+              <th scope="col" class="text-end">Unidades</th><th scope="col" class="text-end">Preço médio</th>
+              <th scope="col" class="text-end">Faixa de preço</th><th scope="col" class="text-end">Valor em estoque</th>
+              <th scope="col">Participação</th>
+            </tr></thead>
+            <tbody id="corpo-categoria"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <section class="painel-consulta h-100" aria-labelledby="t-baixo">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-2">
+              <h2 id="t-baixo" class="h5 mb-0">Estoque baixo</h2>
+              <form id="form-limite" class="d-flex align-items-center gap-2">
+                <label for="campo-limite" class="form-label mb-0">Até</label>
+                <input type="number" class="form-control form-control-sm" id="campo-limite" min="0" step="1" value="5" style="width:5.5rem">
+                <span class="small">unidades</span>
+              </form>
+            </div>
+            <p class="consulta-rota mt-2">Rota: <code>GET /produtos/consultas/estoque-baixo?limite=<span id="limite-atual">5</span></code></p>
+            <pre class="consulta-sql"><code>SELECT * FROM Produtos
+WHERE quantidadeEstoque &lt;= :limite ORDER BY quantidadeEstoque, nome;</code></pre>
+            <div class="table-responsive" aria-busy="true" id="area-baixo">
+              <table class="table table-sm align-middle mb-0">
+                <caption class="visually-hidden">Produtos com estoque baixo</caption>
+                <thead><tr><th scope="col">Produto</th><th scope="col" class="text-end">Estoque</th></tr></thead>
+                <tbody id="corpo-baixo"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <div class="col-lg-5">
+          <section class="painel-consulta h-100" aria-labelledby="t-marcas">
+            <h2 id="t-marcas" class="h5">Marcas</h2>
+            <p class="consulta-rota">Rota: <code>GET /produtos/consultas/marcas</code></p>
+            <pre class="consulta-sql"><code>SELECT marca, COUNT(id), AVG(preco) FROM Produtos
+WHERE marca IS NOT NULL GROUP BY marca ORDER BY marca;</code></pre>
+            <div class="table-responsive" aria-busy="true" id="area-marcas">
+              <table class="table table-sm align-middle mb-0">
+                <caption class="visually-hidden">Produtos por marca</caption>
+                <thead><tr><th scope="col">Marca</th><th scope="col" class="text-end">Produtos</th><th scope="col" class="text-end">Preço médio</th></tr></thead>
+                <tbody id="corpo-marcas"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="area-toasts" class="toast-container position-fixed bottom-0 end-0 p-3" aria-live="polite" aria-atomic="false"></div>
+
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/consultas.js"></script>
+</body>
+</html>
