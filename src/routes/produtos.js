@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { ValidationError, UniqueConstraintError } = require('sequelize');
+const { ValidationError, UniqueConstraintError, Op, fn, col, literal } = require('sequelize');
 const Produto = require('../models/Produto');
 const { salvarImagem, apagarImagem, ImagemInvalidaError } = require('../imagens');
 
@@ -63,10 +63,167 @@ router.post('/', async (req, res) => {
   }
 });
 
+const ORDENACOES = {
+  recentes: [['createdAt', 'DESC'], ['id', 'DESC']],
+  nome: [['nome', 'ASC']],
+  'preco-asc': [['preco', 'ASC'], ['id', 'ASC']],
+  'preco-desc': [['preco', 'DESC'], ['id', 'ASC']],
+  estoque: [['quantidadeEstoque', 'ASC'], ['id', 'ASC']],
+  avaliacao: [['avaliacao', 'DESC'], ['id', 'ASC']],
+};
+const ESTOQUE_BAIXO = 5;
+
+function escaparLike(texto) {
+  return texto.replace(/[\\%_[]/g, (c) => `[${c}]`);
+}
+
+function numero(valor) {
+  if (valor === undefined || valor === '') return null;
+  const n = Number(valor);
+  return Number.isFinite(n) ? n : NaN;
+}
+
+/**
+ * Monta o WHERE a partir da query string:
+ * busca (nome/código/marca), categoria, marca, precoMin, precoMax,
+ * estoque (disponivel | baixo | esgotado) e destaque (true | false).
+ */
+function filtrosDaQuery(query) {
+  const where = {};
+  const e = [];
+  const texto = (v) => (typeof v === 'string' ? v.trim() : '');
+
+  const busca = texto(query.busca);
+  if (busca) {
+    const like = `%${escaparLike(busca)}%`;
+    e.push({ [Op.or]: [{ nome: { [Op.like]: like } }, { codigo: { [Op.like]: like } }, { marca: { [Op.like]: like } }] });
+  }
+  if (texto(query.categoria)) where.categoria = texto(query.categoria);
+  if (texto(query.marca)) where.marca = { [Op.like]: escaparLike(texto(query.marca)) };
+
+  const min = numero(query.precoMin);
+  const max = numero(query.precoMax);
+  if (Number.isNaN(min) || Number.isNaN(max)) return { erro: 'precoMin e precoMax devem ser números.' };
+  if (min !== null && max !== null && min > max) return { erro: 'precoMin não pode ser maior que precoMax.' };
+  if (min !== null || max !== null) {
+    where.preco = {};
+    if (min !== null) where.preco[Op.gte] = min;
+    if (max !== null) where.preco[Op.lte] = max;
+  }
+
+  switch (texto(query.estoque)) {
+    case '': break;
+    case 'disponivel': where.quantidadeEstoque = { [Op.gt]: 0 }; break;
+    case 'baixo': where.quantidadeEstoque = { [Op.between]: [1, ESTOQUE_BAIXO] }; break;
+    case 'esgotado': where.quantidadeEstoque = 0; break;
+    default: return { erro: 'estoque deve ser disponivel, baixo ou esgotado.' };
+  }
+
+  if (query.destaque === 'true' || query.destaque === 'false') where.destaque = query.destaque === 'true';
+
+  if (e.length) where[Op.and] = e;
+  return { where };
+}
+
+// GET /produtos?busca=&categoria=&marca=&precoMin=&precoMax=&estoque=&destaque=&ordenar=
 router.get('/', async (req, res) => {
   try {
-    const produtos = await Produto.findAll({ order: [['id', 'ASC']] });
+    const { where, erro } = filtrosDaQuery(req.query);
+    if (erro) return res.status(400).json({ erro });
+    const order = ORDENACOES[req.query.ordenar] || [['id', 'ASC']];
+    const produtos = await Produto.findAll({ where, order });
     res.json(produtos);
+  } catch (err) {
+    tratarErro(res, err);
+  }
+});
+
+// Consultas agregadas (painel do front-end)
+router.get('/consultas/resumo', async (req, res) => {
+  try {
+    const [r] = await Produto.findAll({
+      attributes: [
+        [fn('COUNT', col('id')), 'totalProdutos'],
+        [fn('COALESCE', fn('SUM', col('quantidadeEstoque')), 0), 'unidadesEmEstoque'],
+        [fn('COALESCE', fn('SUM', literal('preco * quantidadeEstoque')), 0), 'valorEmEstoque'],
+        [fn('AVG', col('preco')), 'precoMedio'],
+        [fn('AVG', col('avaliacao')), 'avaliacaoMedia'],
+        [fn('SUM', literal('CASE WHEN quantidadeEstoque = 0 THEN 1 ELSE 0 END')), 'esgotados'],
+        [fn('SUM', literal('CASE WHEN destaque = 1 THEN 1 ELSE 0 END')), 'destaques'],
+      ],
+      raw: true,
+    });
+    res.json({
+      totalProdutos: Number(r.totalProdutos),
+      unidadesEmEstoque: Number(r.unidadesEmEstoque),
+      valorEmEstoque: Number(r.valorEmEstoque),
+      precoMedio: r.precoMedio === null ? null : Number(r.precoMedio),
+      avaliacaoMedia: r.avaliacaoMedia === null ? null : Number(r.avaliacaoMedia),
+      esgotados: Number(r.esgotados || 0),
+      destaques: Number(r.destaques || 0),
+    });
+  } catch (err) {
+    tratarErro(res, err);
+  }
+});
+
+// SELECT categoria, COUNT(*), SUM(estoque), AVG(preco), MIN/MAX(preco) ... GROUP BY categoria
+router.get('/consultas/por-categoria', async (req, res) => {
+  try {
+    const linhas = await Produto.findAll({
+      attributes: [
+        'categoria',
+        [fn('COUNT', col('id')), 'produtos'],
+        [fn('SUM', col('quantidadeEstoque')), 'unidades'],
+        [fn('AVG', col('preco')), 'precoMedio'],
+        [fn('MIN', col('preco')), 'precoMinimo'],
+        [fn('MAX', col('preco')), 'precoMaximo'],
+        [fn('SUM', literal('preco * quantidadeEstoque')), 'valorEmEstoque'],
+      ],
+      group: ['categoria'],
+      order: [[literal('valorEmEstoque'), 'DESC']],
+      raw: true,
+    });
+    res.json(linhas.map((l) => ({
+      categoria: l.categoria,
+      produtos: Number(l.produtos),
+      unidades: Number(l.unidades),
+      precoMedio: Number(l.precoMedio),
+      precoMinimo: Number(l.precoMinimo),
+      precoMaximo: Number(l.precoMaximo),
+      valorEmEstoque: Number(l.valorEmEstoque),
+    })));
+  } catch (err) {
+    tratarErro(res, err);
+  }
+});
+
+// WHERE quantidadeEstoque <= :limite ORDER BY quantidadeEstoque
+router.get('/consultas/estoque-baixo', async (req, res) => {
+  try {
+    const limite = numero(req.query.limite) ?? ESTOQUE_BAIXO;
+    if (!Number.isInteger(limite) || limite < 0) return res.status(400).json({ erro: 'limite deve ser um inteiro maior ou igual a 0.' });
+    const produtos = await Produto.findAll({
+      where: { quantidadeEstoque: { [Op.lte]: limite } },
+      order: [['quantidadeEstoque', 'ASC'], ['nome', 'ASC']],
+    });
+    res.json(produtos);
+  } catch (err) {
+    tratarErro(res, err);
+  }
+});
+
+// SELECT marca, COUNT(*) ... GROUP BY marca (também alimenta o filtro de marca)
+router.get('/consultas/marcas', async (req, res) => {
+  try {
+    const linhas = await Produto.findAll({
+      attributes: ['marca', [fn('COUNT', col('id')), 'produtos'], [fn('AVG', col('preco')), 'precoMedio']],
+      where: { marca: { [Op.ne]: null } },
+      group: ['marca'],
+      order: [['marca', 'ASC']],
+      raw: true,
+    });
+    res.json(linhas.map((l) => ({ marca: l.marca, produtos: Number(l.produtos), precoMedio: Number(l.precoMedio) })));
   } catch (err) {
     tratarErro(res, err);
   }
