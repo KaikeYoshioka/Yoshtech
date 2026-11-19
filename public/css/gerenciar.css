@@ -1,0 +1,56 @@
+/* Páginas Gerenciar e Consultas */
+.painel-filtros,
+.painel-consulta {
+  background: var(--vt-superficie);
+  border: 1px solid var(--vt-borda);
+  border-radius: var(--vt-raio);
+  box-shadow: var(--vt-sombra-sm);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.painel-filtros .form-label { font-weight: 600; font-size: .875rem; color: var(--vt-tinta); }
+
+.tabela-produtos {
+  background: var(--vt-superficie);
+  border: 1px solid var(--vt-borda);
+  border-radius: var(--vt-raio);
+  box-shadow: var(--vt-sombra-sm);
+}
+.tabela-produtos th { font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: var(--vt-mudo); white-space: nowrap; }
+.tabela-produtos td, .tabela-produtos th { padding: .75rem 1rem; }
+
+.linha-produto-info { display: flex; align-items: center; gap: .75rem; min-width: 16rem; }
+.linha-produto-info img {
+  width: 3rem; height: 3rem; object-fit: contain; flex: none;
+  background: var(--vt-img-fundo); border-radius: .5rem;
+}
+.linha-produto-nome { font-weight: 600; color: var(--vt-tinta); line-height: 1.25; }
+.linha-produto-codigo { font-size: .8rem; color: var(--vt-mudo); }
+
+.estoque-ok { color: #067647; font-weight: 600; }
+.estoque-baixo { color: #b54708; font-weight: 600; }
+.estoque-zero { color: var(--vt-perigo); font-weight: 600; }
+
+.tabela-acoes { white-space: nowrap; }
+
+/* Cartões de resumo */
+.cartao-indicador {
+  background: var(--vt-superficie);
+  border: 1px solid var(--vt-borda);
+  border-radius: var(--vt-raio);
+  box-shadow: var(--vt-sombra-sm);
+  padding: 1.1rem 1.25rem;
+  height: 100%;
+}
+.cartao-indicador .rotulo { font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: var(--vt-mudo); }
+.cartao-indicador .valor { font-size: 1.6rem; font-weight: 700; color: var(--vt-tinta); line-height: 1.2; }
+
+.barra-categoria { height: .5rem; background: var(--vt-img-fundo); border-radius: 999px; overflow: hidden; min-width: 6rem; }
+.barra-categoria > span { display: block; height: 100%; background: var(--vt-acento); border-radius: 999px; }
+
+.consulta-sql {
+  background: #101828; color: #e4e7ec; border-radius: .75rem;
+  padding: .75rem 1rem; font-size: .8rem; overflow-x: auto; margin: 0 0 1rem;
+}
+.consulta-rota { font-size: .85rem; color: var(--vt-mudo); }

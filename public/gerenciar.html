@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Painel de gerenciamento de produtos da YoshTech: pesquisa com filtros, cadastro, edição e exclusão.">
+  <meta name="theme-color" content="#1570ef">
+  <title>Gerenciar produtos · YoshTech</title>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231570ef'/%3E%3Cpath d='M18 4 8 18h7l-2 10 11-15h-7z' fill='%23fdb022'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="vendor/bootstrap-icons/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/gerenciar.css">
+</head>
+<body>
+  <a class="visually-hidden-focusable pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="site-header sticky-top">
+    <nav class="navbar navbar-expand-md" aria-label="Navegação principal">
+      <div class="container">
+        <a class="logo" href="index.html">
+          <span class="logo-icone" aria-hidden="true"><i class="bi bi-lightning-charge-fill"></i></span>
+          <span class="logo-nome" data-nome-loja>YoshTech</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal"
+                aria-controls="menu-principal" aria-expanded="false" aria-label="Abrir menu">
+          <i class="bi bi-list" aria-hidden="true"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="menu-principal">
+          <ul class="navbar-nav nav-principal ms-auto align-items-md-center">
+            <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="gerenciar.html">Gerenciar</a></li>
+            <li class="nav-item"><a class="nav-link" href="consultas.html">Consultas</a></li>
+            <li class="nav-item ms-md-2">
+              <button type="button" class="btn btn-primary btn-sm btn-cabecalho" id="botao-novo-topo">
+                <i class="bi bi-plus-lg" aria-hidden="true"></i> Novo produto
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="conteudo" tabindex="-1" class="secao">
+    <div class="container">
+      <div class="cabecalho-secao">
+        <div>
+          <h1 class="titulo-secao">Gerenciar produtos</h1>
+          <p class="subtitulo-secao" id="resumo-lista" aria-live="polite">Carregando…</p>
+        </div>
+      </div>
+
+      <form id="form-filtros" class="painel-filtros" role="search" aria-label="Filtros de produtos" novalidate>
+        <div class="row g-3 align-items-end">
+          <div class="col-lg-4 col-md-6">
+            <label for="filtro-busca" class="form-label">Buscar</label>
+            <div class="input-group">
+              <span class="input-group-text" aria-hidden="true"><i class="bi bi-search"></i></span>
+              <input type="search" class="form-control" id="filtro-busca" name="busca" autocomplete="off"
+                     placeholder="Nome, código ou marca">
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-6 col-sm-6">
+            <label for="filtro-categoria" class="form-label">Categoria</label>
+            <select class="form-select" id="filtro-categoria" name="categoria"><option value="">Todas</option></select>
+          </div>
+          <div class="col-lg-2 col-md-6 col-sm-6">
+            <label for="filtro-marca" class="form-label">Marca</label>
+            <select class="form-select" id="filtro-marca" name="marca"><option value="">Todas</option></select>
+          </div>
+          <div class="col-lg-2 col-md-6 col-sm-6">
+            <label for="filtro-estoque" class="form-label">Estoque</label>
+            <select class="form-select" id="filtro-estoque" name="estoque">
+              <option value="">Todos</option>
+              <option value="disponivel">Disponível</option>
+              <option value="baixo">Baixo (até 5)</option>
+              <option value="esgotado">Esgotado</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-6 col-sm-6">
+            <label for="filtro-destaque" class="form-label">Destaque</label>
+            <select class="form-select" id="filtro-destaque" name="destaque">
+              <option value="">Todos</option>
+              <option value="true">Somente destaques</option>
+              <option value="false">Sem destaque</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-sm-6">
+            <label for="filtro-preco-min" class="form-label">Preço mínimo</label>
+            <div class="input-group">
+              <span class="input-group-text">R$</span>
+              <input type="number" class="form-control" id="filtro-preco-min" name="precoMin" min="0" step="0.01" placeholder="0,00">
+            </div>
+          </div>
+          <div class="col-lg-2 col-sm-6">
+            <label for="filtro-preco-max" class="form-label">Preço máximo</label>
+            <div class="input-group">
+              <span class="input-group-text">R$</span>
+              <input type="number" class="form-control" id="filtro-preco-max" name="precoMax" min="0" step="0.01" placeholder="0,00">
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6">
+            <label for="filtro-ordenar" class="form-label">Ordenar por</label>
+            <select class="form-select" id="filtro-ordenar" name="ordenar">
+              <option value="">Código interno</option>
+              <option value="recentes">Mais recentes</option>
+              <option value="nome">Nome (A–Z)</option>
+              <option value="preco-asc">Menor preço</option>
+              <option value="preco-desc">Maior preço</option>
+              <option value="estoque">Menor estoque</option>
+              <option value="avaliacao">Melhor avaliação</option>
+            </select>
+          </div>
+          <div class="col-lg-5 col-sm-6 d-flex gap-2 justify-content-lg-end">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-funnel" aria-hidden="true"></i> Filtrar</button>
+            <button type="button" class="btn btn-light" id="botao-limpar"><i class="bi bi-x-circle" aria-hidden="true"></i> Limpar</button>
+          </div>
+        </div>
+        <div class="alert alert-danger mt-3 mb-0 d-none" id="erro-filtros" role="alert"></div>
+      </form>
+
+      <div class="table-responsive tabela-produtos" id="area-tabela" aria-busy="true">
+        <table class="table align-middle mb-0">
+          <caption class="visually-hidden">Lista de produtos</caption>
+          <thead>
+            <tr>
+              <th scope="col">Produto</th>
+              <th scope="col">Categoria</th>
+              <th scope="col">Marca</th>
+              <th scope="col" class="text-end">Preço</th>
+              <th scope="col" class="text-end">Estoque</th>
+              <th scope="col" class="text-end">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Cadastro / edição -->
+  <div class="modal fade" id="modal-produto" tabindex="-1" aria-labelledby="titulo-modal-produto" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <form class="modal-content" id="form-produto" novalidate>
+        <div class="modal-header">
+          <div class="d-flex align-items-center gap-3">
+            <span class="modal-icone" aria-hidden="true"><i class="bi bi-box-seam"></i></span>
+            <div>
+              <h2 class="modal-title" id="titulo-modal-produto">Novo produto</h2>
+              <p class="modal-subtitulo" id="subtitulo-modal-produto">Preencha os dados para colocar o produto na vitrine.</p>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="alert alert-danger erros-api d-none" role="alert"></div>
+          <p class="legenda-obrigatorio">Campos com <span class="obrigatorio">*</span> são obrigatórios.</p>
+
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label for="campo-nome" class="form-label">Nome <span class="obrigatorio" aria-hidden="true">*</span></label>
+              <input type="text" class="form-control" id="campo-nome" name="nome" maxlength="100" required autocomplete="off" aria-describedby="erro-campo-nome">
+              <div class="invalid-feedback" id="erro-campo-nome"></div>
+            </div>
+            <div class="col-md-4">
+              <label for="campo-codigo" class="form-label">Código <span class="obrigatorio" aria-hidden="true">*</span></label>
+              <input type="text" class="form-control" id="campo-codigo" name="codigo" maxlength="20" required autocomplete="off" spellcheck="false" placeholder="Ex.: FONE-001" aria-describedby="erro-campo-codigo">
+              <div class="invalid-feedback" id="erro-campo-codigo"></div>
+            </div>
+            <div class="col-md-6">
+              <label for="campo-marca" class="form-label">Marca</label>
+              <input type="text" class="form-control" id="campo-marca" name="marca" maxlength="50" autocomplete="off" aria-describedby="erro-campo-marca">
+              <div class="invalid-feedback" id="erro-campo-marca"></div>
+            </div>
+            <div class="col-md-6">
+              <label for="campo-categoria" class="form-label">Categoria <span class="obrigatorio" aria-hidden="true">*</span></label>
+              <select class="form-select" id="campo-categoria" name="categoria" required aria-describedby="erro-campo-categoria"></select>
+              <div class="invalid-feedback" id="erro-campo-categoria"></div>
+            </div>
+            <div class="col-sm-4">
+              <label for="campo-preco" class="form-label">Preço <span class="obrigatorio" aria-hidden="true">*</span></label>
+              <div class="input-group has-validation">
+                <span class="input-group-text" aria-hidden="true">R$</span>
+                <input type="number" class="form-control" id="campo-preco" name="preco" min="0" max="99999999.99" step="0.01" inputmode="decimal" required placeholder="0,00" aria-describedby="erro-campo-preco">
+                <div class="invalid-feedback" id="erro-campo-preco"></div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <label for="campo-estoque" class="form-label">Estoque <span class="obrigatorio" aria-hidden="true">*</span></label>
+              <input type="number" class="form-control" id="campo-estoque" name="quantidadeEstoque" min="0" step="1" value="0" inputmode="numeric" required aria-describedby="erro-campo-estoque">
+              <div class="invalid-feedback" id="erro-campo-estoque"></div>
+            </div>
+            <div class="col-sm-4">
+              <label for="campo-avaliacao" class="form-label">Avaliação</label>
+              <input type="number" class="form-control" id="campo-avaliacao" name="avaliacao" min="0" max="5" step="0.1" inputmode="decimal" placeholder="0 a 5" aria-describedby="erro-campo-avaliacao">
+              <div class="invalid-feedback" id="erro-campo-avaliacao"></div>
+            </div>
+            <div class="col-12">
+              <div class="caixa-opcao form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="campo-destaque" name="destaque">
+                <div><label class="form-check-label" for="campo-destaque">Mostrar no carrossel de destaque</label></div>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="campo-foto" class="form-label">Foto</label>
+              <div class="campo-foto">
+                <div class="foto-preview">
+                  <img src="img/sem-imagem.svg" alt="Pré-visualização da foto do produto" class="img-produto sem-foto">
+                </div>
+                <div class="campo-foto-controles">
+                  <input type="file" class="form-control" id="campo-foto" name="foto" accept="image/jpeg,image/png,image/webp" aria-describedby="dica-foto erro-campo-foto">
+                  <div class="invalid-feedback" id="erro-campo-foto"></div>
+                  <div class="form-text" id="dica-foto">JPG, PNG ou WEBP de até 8 MB. A foto é reduzida antes do envio.</div>
+                  <button type="button" class="btn btn-link btn-sm descartar-foto d-none">
+                    <i class="bi bi-x-circle" aria-hidden="true"></i> Descartar foto escolhida
+                  </button>
+                  <div class="form-check grupo-remover-foto d-none">
+                    <input class="form-check-input" type="checkbox" id="campo-remover" name="removerImagem">
+                    <label class="form-check-label" for="campo-remover">Remover a foto atual</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="campo-descricao" class="form-label">Descrição</label>
+              <textarea class="form-control" id="campo-descricao" name="descricao" rows="4" maxlength="500" aria-describedby="contador-descricao erro-campo-descricao"></textarea>
+              <div class="invalid-feedback" id="erro-campo-descricao"></div>
+              <div class="form-text text-end contador" id="contador-descricao">0/500</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="botao-salvar">
+            <span class="spinner-border spinner-border-sm d-none" aria-hidden="true"></span>
+            <span class="texto-botao">Salvar</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Exclusão -->
+  <div class="modal fade" id="modal-excluir" tabindex="-1" aria-labelledby="titulo-modal-excluir" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="titulo-modal-excluir">Excluir produto?</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger erros-api d-none" role="alert" id="erro-exclusao"></div>
+          <p>Você vai excluir <strong id="nome-exclusao"></strong>. A foto também será apagada e a ação não pode ser desfeita.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="botao-confirmar-exclusao">
+            <span class="spinner-border spinner-border-sm d-none" aria-hidden="true"></span>
+            <span class="texto-botao">Excluir</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="area-toasts" class="toast-container position-fixed bottom-0 end-0 p-3" aria-live="polite" aria-atomic="false"></div>
+
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/gerenciar.js"></script>
+</body>
+</html>
