@@ -1,3 +1,6 @@
 node_modules/
 .env
 Entrega-Loja-Eletronicos.zip
+
+# Relatório LaTeX (entregue separado, no Canvas)
+docs/relatorio/
