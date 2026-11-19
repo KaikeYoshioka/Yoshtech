@@ -1,0 +1,219 @@
+/* =========================================================
+   Tema YoshTech — 藍 (índigo) e papel
+   Carregado depois de style.css / gerenciar.css.
+   Ousadia concentrada no hero (cortina noren) e no carimbo;
+   o resto é quieto: bordas finas, raio pequeno, sem sombras.
+   ========================================================= */
+
+:root {
+  --ai: #1B2A4A;          /* 藍 índigo: estrutura, botões, hero */
+  --ai-rgb: 27, 42, 74;
+  --ai-claro: #2C4170;
+  --ai-suave: #EEF0F5;
+  --kami: #FBFBFA;        /* papel: fundo */
+  --sumi: #1D1F24;        /* 墨 texto */
+  --nezumi: #6B7079;      /* 鼠 texto secundário */
+  --sen: #DCDDE1;         /* 線 linhas */
+  --shu: #C8372D;         /* 朱 carimbo e perigo */
+
+  --vt-acento: var(--ai);
+  --vt-acento-rgb: var(--ai-rgb);
+  --vt-acento-hover: var(--ai-claro);
+  --vt-acento-escuro: #111C33;
+  --vt-acento-suave: var(--ai-suave);
+  --vt-acento-borda: #C9CEDB;
+  --vt-estrela: #B8862B;
+  --vt-tinta: var(--sumi);
+  --vt-texto: #3A3D45;
+  --vt-mudo: var(--nezumi);
+  --vt-linha: var(--sen);
+  --vt-borda: #E7E8EB;
+  --vt-fundo: var(--kami);
+  --vt-img-fundo: #F1F2F4;
+  --vt-perigo: var(--shu);
+
+  --vt-raio-lg: 6px;
+  --vt-raio: 4px;
+  --vt-sombra-sm: none;
+  --vt-sombra-md: none;
+
+  --bs-body-font-family: "Zen Kaku Gothic New", "Yu Gothic", "Hiragino Sans", system-ui, sans-serif;
+  --bs-body-line-height: 1.65;
+  --bs-border-radius: 4px;
+  --bs-border-radius-sm: 3px;
+  --bs-border-radius-lg: 6px;
+  --bs-link-hover-color-rgb: 44, 65, 112;
+  --bs-focus-ring-color: rgba(var(--ai-rgb), .35);
+}
+
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 { font-weight: 700; letter-spacing: 0; }
+:focus-visible { outline: 2px solid var(--ai); outline-offset: 2px; }
+
+/* ---------- Botões ---------- */
+.btn { --bs-btn-border-radius: 4px; --bs-btn-font-weight: 700; letter-spacing: .02em; }
+.btn-lg { --bs-btn-border-radius: 4px; }
+.btn-primary { box-shadow: none; }
+.btn-danger { --bs-btn-hover-bg: #A82C23; --bs-btn-hover-border-color: #A82C23; --bs-btn-focus-shadow-rgb: 200, 55, 45; }
+.btn-outline-danger { --bs-btn-border-color: #E8B4AF; --bs-btn-hover-bg: var(--shu); --bs-btn-hover-border-color: var(--shu); }
+
+/* ---------- Cabeçalho e logo ---------- */
+.site-header { background: rgba(251, 251, 250, .92); border-bottom-color: var(--sen); }
+.site-header .navbar { --bs-navbar-active-color: var(--sumi); }
+
+.logo { gap: .7rem; padding: .25rem 0; background: none; border-radius: 0; }
+.logo:hover { background: none; }
+.logo-selo { width: 2.5rem; height: 2.5rem; flex: none; }
+.logo-texto { display: grid; line-height: 1; }
+.logo-nome { font-size: 1.3rem; font-weight: 900; letter-spacing: .01em; color: var(--sumi); }
+.logo-kana { margin-top: .3rem; font-size: .68rem; font-weight: 500; letter-spacing: .32em; color: var(--nezumi); }
+
+.nav-principal .nav-link { font-weight: 500; border-radius: 0; position: relative; }
+.nav-principal .nav-link:hover { background: none; color: var(--ai); }
+.nav-principal .nav-link.active { font-weight: 700; }
+.nav-principal .nav-link.active::after {
+  content: ""; position: absolute; left: var(--bs-navbar-nav-link-padding-x); right: var(--bs-navbar-nav-link-padding-x);
+  bottom: .1rem; height: 2px; background: var(--shu);
+}
+
+/* ---------- Títulos de seção ---------- */
+.cabecalho-secao { border-bottom-color: var(--sen); }
+.cabecalho-secao::after { width: 2.5rem; height: 2px; border-radius: 0; background: var(--ai); bottom: -1px; }
+.titulo-secao { font-weight: 900; letter-spacing: .01em; }
+.titulo-acento { color: var(--ai); }
+
+/* ---------- Hero: cortina noren ---------- */
+.painel-destaque {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--ai);
+  color: #fff;
+}
+.painel-destaque::before {
+  /* fendas da cortina: três cortes verticais que descem do topo */
+  right: auto; bottom: auto; left: 0; top: 0;
+  width: 100%; height: 42%;
+  border-radius: 0;
+  z-index: 2;
+  background:
+    linear-gradient(var(--kami), var(--kami)) 25% 0 / 3px 100% no-repeat,
+    linear-gradient(var(--kami), var(--kami)) 50% 0 / 3px 100% no-repeat,
+    linear-gradient(var(--kami), var(--kami)) 75% 0 / 3px 100% no-repeat;
+}
+.painel-destaque::after {
+  /* barra de madeira de onde a cortina pende */
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 6px; z-index: 3;
+  background: #3B2A1E;
+}
+.carousel-destaque .carousel-inner { border-radius: 0; }
+.slide-destaque {
+  background: transparent;
+  border-radius: 0;
+  padding: 3.25rem 5rem 2.5rem;
+  min-height: 26rem;
+}
+.slide-imagem {
+  position: relative; z-index: 3;
+  height: 20rem; aspect-ratio: 1; justify-self: center;
+  border-radius: 50%;
+  background: var(--kami);
+  padding: 2.5rem;
+}
+.slide-imagem .img-produto { mix-blend-mode: multiply; }
+.slide-info { position: relative; z-index: 3; color: #fff; }
+.slide-nome { color: #fff; font-weight: 900; }
+.slide-marca { color: rgba(255, 255, 255, .7); }
+.slide-descricao { color: rgba(255, 255, 255, .82); }
+.slide-preco { color: #fff; font-weight: 900; }
+.slide-selo {
+  border: 1px solid rgba(255, 255, 255, .45); border-radius: 2px;
+  background: transparent; color: #fff;
+  text-transform: none; letter-spacing: .04em; font-size: .78rem;
+}
+.slide-info .badge-categoria { background: transparent; border-color: rgba(255, 255, 255, .45); color: #fff; }
+.slide-info .btn-primary {
+  --bs-btn-bg: var(--kami); --bs-btn-color: var(--ai); --bs-btn-border-color: var(--kami);
+  --bs-btn-hover-bg: #fff; --bs-btn-hover-color: var(--ai); --bs-btn-hover-border-color: #fff;
+  --bs-btn-active-bg: #E9EAEE; --bs-btn-active-color: var(--ai);
+}
+.carousel-destaque .carousel-control-prev,
+.carousel-destaque .carousel-control-next { color: #fff; }
+.seta-carrossel { background: transparent; border-color: rgba(255, 255, 255, .5); color: #fff; }
+.carousel-control-prev:hover .seta-carrossel,
+.carousel-control-next:hover .seta-carrossel { background: var(--kami); border-color: var(--kami); color: var(--ai); transform: none; }
+.carousel-destaque .carousel-indicators { margin: 0; padding-bottom: 1rem; }
+.carousel-destaque .carousel-indicators [data-bs-target] { background-color: #fff; opacity: .35; }
+.carousel-destaque .carousel-indicators .active { background-color: #fff; opacity: 1; }
+.botao-pausar { right: 1rem; bottom: 1rem; background: transparent; border-color: rgba(255, 255, 255, .5); color: #fff; }
+.botao-pausar:hover { background: var(--kami); color: var(--ai); }
+.painel-destaque .estado { background: transparent; color: #fff; }
+.painel-destaque .estado-titulo { color: #fff; }
+.painel-destaque .estado-texto { color: rgba(255, 255, 255, .75); }
+
+@media (max-width: 767.98px) {
+  .painel-destaque::before { height: 18%; }
+  .slide-destaque { padding: 2.5rem 1.25rem 1.5rem; }
+  .slide-imagem { height: 12rem; padding: 1.5rem; }
+}
+
+/* ---------- Cards de produto: quietos ---------- */
+.card-produto { box-shadow: none; transition: border-color .15s ease; }
+.card-produto:hover { --bs-card-border-color: var(--ai); box-shadow: none; transform: none; }
+.card-produto:hover .card-produto-imagem .img-produto { transform: none; }
+.card-produto-imagem { background: var(--vt-img-fundo); }
+.card-produto-nome { font-weight: 700; }
+.card-produto-preco { font-weight: 900; letter-spacing: 0; }
+.card-produto:hover .btn-detalhes { background-color: var(--ai); border-color: var(--ai); color: #fff; }
+.selo { border-radius: 2px; }
+.selo-destaque { border: 0; background: var(--ai); color: #fff; }
+.selo-esgotado { background: var(--shu); }
+
+.badge-categoria { border-radius: 2px; border-color: var(--vt-acento-borda); background: transparent; color: var(--ai); }
+.badge-destaque { border-radius: 2px; border-color: var(--ai); background: var(--ai); color: #fff; }
+.badge-esgotado { border-radius: 2px; border-color: var(--shu); background: var(--shu); }
+
+/* ---------- Detalhes ---------- */
+.detalhe-imagem { background: var(--vt-img-fundo); }
+.detalhe-info { box-shadow: none; }
+.detalhe-nome, .detalhe-preco { font-weight: 900; letter-spacing: 0; }
+.ficha > div { border-radius: 2px; background: transparent; }
+.ficha dt { text-transform: none; letter-spacing: 0; font-size: .8rem; }
+.codigo { border-radius: 2px; background: var(--vt-img-fundo); }
+
+/* ---------- Estados, modais, formulários ---------- */
+.estado { border-radius: 4px; }
+.estado-icone { box-shadow: none; }
+.modal-content { border-radius: 6px; box-shadow: 0 24px 48px -16px rgba(var(--ai-rgb), .35); }
+.modal-footer { background: var(--kami); border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }
+.modal-backdrop { --bs-backdrop-bg: #0E1628; }
+.modal-icone { border-radius: 4px; }
+.form-control, .form-select { box-shadow: none; }
+.form-control:focus, .form-select:focus { border-color: var(--ai); box-shadow: 0 0 0 .2rem rgba(var(--ai-rgb), .15); }
+.form-check-input:focus { border-color: var(--ai); box-shadow: 0 0 0 .2rem rgba(var(--ai-rgb), .15); }
+.input-group-text { background: var(--vt-img-fundo); }
+.caixa-opcao.form-check { border-radius: 4px; background: transparent; }
+.foto-preview { border-radius: 4px; background: var(--vt-img-fundo); }
+.toast-vt { --bs-toast-bg: var(--ai); --bs-toast-border-radius: 4px; }
+
+/* ---------- Rodapé ---------- */
+.secao-creditos { background: transparent; border-top-color: var(--sen); }
+.autoria-avatar { background: var(--ai); }
+.redes-lista a { border-radius: 4px; background: transparent; border: 1px solid var(--sen); }
+.redes-lista a:hover { background: var(--ai); border-color: var(--ai); transform: none; }
+
+/* ---------- Gerenciar e Consultas ---------- */
+.painel-filtros, .painel-consulta, .tabela-produtos, .cartao-indicador { border-radius: 4px; box-shadow: none; }
+.tabela-produtos th { text-transform: none; letter-spacing: 0; font-size: .85rem; font-weight: 700; color: var(--nezumi); }
+.cartao-indicador .rotulo { text-transform: none; letter-spacing: 0; font-size: .85rem; }
+.cartao-indicador .valor { font-weight: 900; }
+.linha-produto-info img { border-radius: 2px; }
+.barra-categoria { border-radius: 0; }
+.barra-categoria > span { border-radius: 0; background: var(--ai); }
+.consulta-sql { background: var(--ai); border-radius: 4px; color: #E6E9F0; }
+.estoque-ok { color: #2F6B4F; }
+.estoque-baixo { color: #9A5B13; }
+.estoque-zero { color: var(--shu); }
+
+@media (prefers-reduced-motion: reduce) {
+  .card-produto { transition: none; }
+}

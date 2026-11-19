@@ -166,7 +166,6 @@ async function getDestaques() {
               <p class="slide-preco">${formatarPreco(preco)}</p>
               <a href="${escapeHTML(link)}" class="btn btn-primary btn-lg">
                 Ver detalhes<span class="visually-hidden"> de ${escapeHTML(nome)}</span>
-                <i class="bi bi-arrow-right" aria-hidden="true"></i>
               </a>
             </div>
           </article>

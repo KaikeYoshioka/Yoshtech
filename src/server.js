@@ -20,6 +20,7 @@ app.use('/produtos', registrarChamada, produtosRoutes);
 
 app.use('/vendor/bootstrap', express.static(path.join(RAIZ, 'node_modules', 'bootstrap', 'dist')));
 app.use('/vendor/bootstrap-icons', express.static(path.join(RAIZ, 'node_modules', 'bootstrap-icons')));
+app.use('/vendor/fonts', express.static(path.join(RAIZ, 'node_modules', '@fontsource', 'zen-kaku-gothic-new')));
 app.use(express.static(path.join(RAIZ, 'public')));
 
 app.use((req, res) => res.status(404).json({ erro: 'Rota não encontrada.' }));

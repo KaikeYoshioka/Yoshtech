@@ -4,15 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Consultas ao banco de dados da YoshTech: resumo do estoque, produtos por categoria, estoque baixo e marcas.">
-  <meta name="theme-color" content="#1570ef">
+  <meta name="theme-color" content="#1B2A4A">
   <title>Consultas · YoshTech</title>
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231570ef'/%3E%3Cpath d='M18 4 8 18h7l-2 10 11-15h-7z' fill='%23fdb022'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="img/selo.svg">
 
   <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="vendor/bootstrap-icons/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="vendor/fonts/400.css">
+  <link rel="stylesheet" href="vendor/fonts/500.css">
+  <link rel="stylesheet" href="vendor/fonts/700.css">
+  <link rel="stylesheet" href="vendor/fonts/900.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/gerenciar.css">
+  <link rel="stylesheet" href="css/tema.css">
 </head>
 <body>
   <a class="visually-hidden-focusable pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
@@ -21,8 +26,8 @@
     <nav class="navbar navbar-expand-md" aria-label="Navegação principal">
       <div class="container">
         <a class="logo" href="index.html">
-          <span class="logo-icone" aria-hidden="true"><i class="bi bi-lightning-charge-fill"></i></span>
-          <span class="logo-nome" data-nome-loja>YoshTech</span>
+          <img class="logo-selo" src="img/selo.svg" alt="" width="40" height="40">
+          <span class="logo-texto"><span class="logo-nome" data-nome-loja>YoshTech</span><span class="logo-kana" lang="ja">ヨシテック</span></span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal"
                 aria-controls="menu-principal" aria-expanded="false" aria-label="Abrir menu">
@@ -56,9 +61,6 @@
       <section class="painel-consulta" aria-labelledby="t-categoria">
         <h2 id="t-categoria" class="h5">Produtos por categoria</h2>
         <p class="consulta-rota">Rota: <code>GET /produtos/consultas/por-categoria</code></p>
-        <pre class="consulta-sql"><code>SELECT categoria, COUNT(id), SUM(quantidadeEstoque), AVG(preco), MIN(preco), MAX(preco),
-       SUM(preco * quantidadeEstoque) AS valorEmEstoque
-FROM Produtos GROUP BY categoria ORDER BY valorEmEstoque DESC;</code></pre>
         <div class="table-responsive" id="area-categoria" aria-busy="true">
           <table class="table align-middle mb-0">
             <caption class="visually-hidden">Produtos por categoria</caption>
@@ -85,8 +87,6 @@ FROM Produtos GROUP BY categoria ORDER BY valorEmEstoque DESC;</code></pre>
               </form>
             </div>
             <p class="consulta-rota mt-2">Rota: <code>GET /produtos/consultas/estoque-baixo?limite=<span id="limite-atual">5</span></code></p>
-            <pre class="consulta-sql"><code>SELECT * FROM Produtos
-WHERE quantidadeEstoque &lt;= :limite ORDER BY quantidadeEstoque, nome;</code></pre>
             <div class="table-responsive" aria-busy="true" id="area-baixo">
               <table class="table table-sm align-middle mb-0">
                 <caption class="visually-hidden">Produtos com estoque baixo</caption>
@@ -101,8 +101,6 @@ WHERE quantidadeEstoque &lt;= :limite ORDER BY quantidadeEstoque, nome;</code></
           <section class="painel-consulta h-100" aria-labelledby="t-marcas">
             <h2 id="t-marcas" class="h5">Marcas</h2>
             <p class="consulta-rota">Rota: <code>GET /produtos/consultas/marcas</code></p>
-            <pre class="consulta-sql"><code>SELECT marca, COUNT(id), AVG(preco) FROM Produtos
-WHERE marca IS NOT NULL GROUP BY marca ORDER BY marca;</code></pre>
             <div class="table-responsive" aria-busy="true" id="area-marcas">
               <table class="table table-sm align-middle mb-0">
                 <caption class="visually-hidden">Produtos por marca</caption>

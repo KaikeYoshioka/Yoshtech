@@ -126,7 +126,7 @@ public/
 | Tela | Arquivo | O que faz |
 |---|---|---|
 | Gerenciar produtos | `public/gerenciar.html` + `js/gerenciar.js` | Tabela com filtros (busca, categoria, marca, faixa de preço, estoque, destaque, ordenação), cadastro, edição e exclusão |
-| Consultas | `public/consultas.html` + `js/consultas.js` | Resumo do estoque, produtos por categoria, estoque baixo e marcas, com a rota e o SQL de cada consulta |
+| Consultas | `public/consultas.html` + `js/consultas.js` | Resumo do estoque, produtos por categoria, estoque baixo e marcas, com a rota de cada consulta |
 
 Novas rotas da API:
 

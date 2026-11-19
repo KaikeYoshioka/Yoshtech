@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Carimbo YoshTech">
+  <!-- Hanko (carimbo) com o kanji 吉 — "yoshi", boa sorte -->
+  <g transform="rotate(-4 32 32)">
+    <rect x="4" y="4" width="56" height="56" rx="9" fill="#C8372D"/>
+    <rect x="9" y="9" width="46" height="46" rx="5" fill="none" stroke="#FBFBFA" stroke-width="2.2"/>
+    <!-- 吉 desenhado em traços, sem depender de fonte -->
+    <g fill="#FBFBFA">
+      <rect x="17" y="17.5" width="30" height="4.2" rx="1"/>
+      <rect x="29.9" y="12.5" width="4.2" height="19" rx="1"/>
+      <rect x="21" y="27.2" width="22" height="3.8" rx="1"/>
+      <path d="M20 35.5h24a1 1 0 0 1 1 1V51a1 1 0 0 1-1 1H20a1 1 0 0 1-1-1V36.5a1 1 0 0 1 1-1Zm3.6 3.6v9.3h16.8v-9.3Z"/>
+    </g>
+  </g>
+</svg>

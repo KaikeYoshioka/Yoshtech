@@ -11,6 +11,7 @@
   "author": "Kaike Yoshioka",
   "license": "MIT",
   "dependencies": {
+    "@fontsource/zen-kaku-gothic-new": "^5.3.1",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.2",
     "cors": "^2.8.6",
