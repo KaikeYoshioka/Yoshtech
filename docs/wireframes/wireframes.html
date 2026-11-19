@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wireframes · YoshTech</title>
+<style>
+  :root { --g1:#f2f2f2; --g2:#d9d9d9; --g3:#a6a6a6; --g4:#595959; --g5:#262626; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 2rem; font: 14px/1.4 system-ui, sans-serif; background: #e8e8e8; color: var(--g5); }
+  h1 { margin: 0 0 .25rem; } .sub { color: var(--g4); margin: 0 0 2rem; }
+  .grade { display: grid; gap: 2.5rem; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); }
+  figure { margin: 0; } figcaption { font-weight: 700; margin-bottom: .5rem; }
+  .tela { background: #fff; border: 2px solid var(--g4); padding: .75rem; display: grid; gap: .6rem; }
+  .barra { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--g2); padding-bottom: .5rem; }
+  .logo { font-weight: 800; border: 2px solid var(--g4); padding: .1rem .5rem; }
+  .menu span { margin-left: .75rem; color: var(--g4); } .menu .ativo { font-weight: 700; text-decoration: underline; }
+  .bt { display: inline-block; background: var(--g4); color: #fff; padding: .25rem .7rem; font-size: 12px; }
+  .bt.sec { background: #fff; color: var(--g5); border: 1.5px solid var(--g4); }
+  .caixa { background: var(--g2); border: 1.5px dashed var(--g3); display: grid; place-items: center; color: var(--g4); font-size: 12px; }
+  .campo { border: 1.5px solid var(--g3); padding: .3rem .5rem; color: var(--g3); font-size: 12px; background: #fff; }
+  .campo b { display: block; color: var(--g4); font-size: 11px; margin-bottom: 2px; }
+  .linha { display: grid; gap: .5rem; } .c2 { grid-template-columns: 1fr 1fr; } .c3 { grid-template-columns: repeat(3,1fr); } .c4 { grid-template-columns: repeat(4,1fr); }
+  .painel { border: 1.5px solid var(--g3); padding: .6rem; display: grid; gap: .5rem; }
+  .titulo { font-weight: 700; font-size: 16px; }
+  .card { border: 1.5px solid var(--g3); padding: .5rem; display: grid; gap: .3rem; font-size: 12px; }
+  .card .caixa { height: 70px; }
+  table { border-collapse: collapse; width: 100%; font-size: 12px; } th, td { border: 1px solid var(--g3); padding: .3rem .4rem; text-align: left; }
+  th { background: var(--g2); } .acoes { text-align: center; white-space: nowrap; }
+  .modal { border: 2px solid var(--g5); box-shadow: 6px 6px 0 var(--g3); padding: .75rem; display: grid; gap: .5rem; background: #fff; }
+  .nota { font-size: 12px; color: var(--g4); }
+  .sql { background: var(--g5); color: #ddd; font: 11px monospace; padding: .4rem .5rem; }
+</style>
+</head>
+<body>
+<h1>Wireframes · YoshTech</h1>
+<p class="sub">Média fidelidade, tons de cinza. Telas: (1) Início, (2) Detalhes, (3) Gerenciar produtos com filtros, (4) Cadastro/edição e exclusão, (5) Consultas. Cada tela indica a rota da API utilizada.</p>
+
+<div class="grade">
+
+<figure>
+  <figcaption>1 · Início <span class="nota">(GET /produtos/destaques, GET /produtos/recentes)</span></figcaption>
+  <div class="tela">
+    <div class="barra"><span class="logo">YoshTech</span><span class="menu"><span class="ativo">Início</span><span>Produtos</span><span>Gerenciar</span><span>Consultas</span><span class="bt">+ Novo produto</span></span></div>
+    <div class="painel"><div class="titulo">Destaque</div>
+      <div class="linha c2"><div class="caixa" style="height:110px">Foto do produto</div>
+        <div style="display:grid;gap:.4rem"><span class="nota">Categoria · Em destaque</span><div class="titulo">Nome do produto</div><span class="nota">Marca · descrição curta…</span><div class="titulo">R$ 0,00</div><span class="bt">Ver detalhes →</span></div></div></div>
+    <div class="titulo">Produtos <span class="nota">12 últimos cadastrados</span></div>
+    <div class="linha c4">
+      <div class="card"><div class="caixa">foto</div><b>Nome</b><span>Marca · ★★★★☆</span><b>R$ 0,00</b><span class="bt sec">Ver detalhes</span></div>
+      <div class="card"><div class="caixa">foto</div><b>Nome</b><span>Marca · ★★★★☆</span><b>R$ 0,00</b><span class="bt sec">Ver detalhes</span></div>
+      <div class="card"><div class="caixa">foto</div><b>Nome</b><span>Marca · ★★★★☆</span><b>R$ 0,00</b><span class="bt sec">Ver detalhes</span></div>
+      <div class="card"><div class="caixa">foto</div><b>Nome</b><span>Marca · ★★★★☆</span><b>R$ 0,00</b><span class="bt sec">Ver detalhes</span></div>
+    </div>
+  </div>
+</figure>
+
+<figure>
+  <figcaption>2 · Detalhes <span class="nota">(GET /produtos/codigo/:codigo, PUT, DELETE)</span></figcaption>
+  <div class="tela">
+    <div class="barra"><span class="logo">YoshTech</span><span class="menu"><span>Início</span><span>Gerenciar</span><span>Consultas</span></span></div>
+    <div class="linha c2">
+      <div class="caixa" style="height:190px">Foto grande</div>
+      <div style="display:grid;gap:.4rem;align-content:start">
+        <span class="nota">Categoria · Em destaque</span><div class="titulo">Nome do produto</div>
+        <span class="nota">Marca · Código · ★★★★☆</span><div class="titulo">R$ 0,00</div><span class="nota">Estoque: 0 unidades</span>
+        <div><span class="bt">Editar</span> <span class="bt sec">Excluir</span></div>
+      </div></div>
+    <div class="painel"><b>Sobre o produto</b><div class="caixa" style="height:40px">descrição</div><b>Ficha do produto</b>
+      <div class="linha c2 nota"><span>Código · …</span><span>Marca · …</span><span>Categoria · …</span><span>Estoque · …</span></div></div>
+  </div>
+</figure>
+
+<figure>
+  <figcaption>3 · Gerenciar produtos <span class="nota">(GET /produtos?busca&amp;categoria&amp;marca&amp;estoque&amp;destaque&amp;precoMin&amp;precoMax&amp;ordenar)</span></figcaption>
+  <div class="tela">
+    <div class="barra"><span class="logo">YoshTech</span><span class="menu"><span>Início</span><span class="ativo">Gerenciar</span><span>Consultas</span><span class="bt">+ Novo produto</span></span></div>
+    <div class="titulo">Gerenciar produtos <span class="nota">14 produtos cadastrados</span></div>
+    <div class="painel">
+      <div class="linha c3"><div class="campo"><b>Buscar</b>Nome, código ou marca</div><div class="campo"><b>Categoria</b>Todas ▾</div><div class="campo"><b>Marca</b>Todas ▾</div></div>
+      <div class="linha c4"><div class="campo"><b>Estoque</b>Todos ▾</div><div class="campo"><b>Destaque</b>Todos ▾</div><div class="campo"><b>Preço mín.</b>R$ 0,00</div><div class="campo"><b>Preço máx.</b>R$ 0,00</div></div>
+      <div class="linha c3"><div class="campo"><b>Ordenar por</b>Código interno ▾</div><span></span><div style="text-align:right"><span class="bt">Filtrar</span> <span class="bt sec">Limpar</span></div></div>
+    </div>
+    <table><tr><th>Produto</th><th>Categoria</th><th>Marca</th><th>Preço</th><th>Estoque</th><th>Ações</th></tr>
+      <tr><td>▢ Nome · COD-001</td><td>Áudio</td><td>Philips</td><td>R$ 0,00</td><td>12</td><td class="acoes">👁 ✎ 🗑</td></tr>
+      <tr><td>▢ Nome · COD-002</td><td>Redes</td><td>TP-Link</td><td>R$ 0,00</td><td>0</td><td class="acoes">👁 ✎ 🗑</td></tr>
+      <tr><td>▢ Nome · COD-003</td><td>Games</td><td>Xbox</td><td>R$ 0,00</td><td>3</td><td class="acoes">👁 ✎ 🗑</td></tr></table>
+  </div>
+</figure>
+
+<figure>
+  <figcaption>4 · Cadastro / edição e exclusão <span class="nota">(POST /produtos, PUT /produtos/:codigo, DELETE /produtos/:codigo)</span></figcaption>
+  <div class="tela">
+    <div class="linha c2">
+      <div class="modal"><div class="titulo">Novo produto / Editar produto</div>
+        <div class="linha c2"><div class="campo"><b>Nome *</b>…</div><div class="campo"><b>Código *</b>…</div></div>
+        <div class="linha c2"><div class="campo"><b>Marca</b>…</div><div class="campo"><b>Categoria *</b>Selecione ▾</div></div>
+        <div class="linha c3"><div class="campo"><b>Preço *</b>R$</div><div class="campo"><b>Estoque *</b>0</div><div class="campo"><b>Avaliação</b>0 a 5</div></div>
+        <div class="linha c2"><div class="caixa" style="height:50px">foto</div><div class="campo"><b>Foto</b>Escolher arquivo</div></div>
+        <div class="campo" style="height:46px"><b>Descrição</b></div>
+        <div style="text-align:right"><span class="bt sec">Cancelar</span> <span class="bt">Salvar</span></div></div>
+      <div class="modal" style="align-content:start"><div class="titulo">Excluir produto?</div>
+        <span class="nota">Você vai excluir <b>Nome (COD-001)</b>. A foto também será apagada e a ação não pode ser desfeita.</span>
+        <div style="text-align:right"><span class="bt sec">Cancelar</span> <span class="bt">Excluir</span></div></div>
+    </div>
+  </div>
+</figure>
+
+<figure>
+  <figcaption>5 · Consultas <span class="nota">(GET /produtos/consultas/resumo | por-categoria | estoque-baixo | marcas)</span></figcaption>
+  <div class="tela">
+    <div class="barra"><span class="logo">YoshTech</span><span class="menu"><span>Início</span><span>Gerenciar</span><span class="ativo">Consultas</span></span></div>
+    <div class="titulo">Consultas</div>
+    <div class="linha c4"><div class="card"><span>Produtos</span><b>14</b></div><div class="card"><span>Unidades</span><b>232</b></div><div class="card"><span>Valor em estoque</span><b>R$ …</b></div><div class="card"><span>Preço médio</span><b>R$ …</b></div></div>
+    <div class="painel"><b>Produtos por categoria</b><div class="sql">SELECT categoria, COUNT(*), AVG(preco) … GROUP BY categoria</div>
+      <table><tr><th>Categoria</th><th>Produtos</th><th>Preço médio</th><th>Valor em estoque</th><th>Participação</th></tr>
+      <tr><td>Informática</td><td>3</td><td>R$ …</td><td>R$ …</td><td>▇▇▇▇▇</td></tr><tr><td>Áudio</td><td>3</td><td>R$ …</td><td>R$ …</td><td>▇▇▇</td></tr></table></div>
+    <div class="linha c2"><div class="painel"><b>Estoque baixo</b> <span class="campo">Até 5 unidades</span><table><tr><th>Produto</th><th>Estoque</th></tr><tr><td>…</td><td>0</td></tr></table></div>
+      <div class="painel"><b>Marcas</b><table><tr><th>Marca</th><th>Produtos</th><th>Preço médio</th></tr><tr><td>…</td><td>1</td><td>R$ …</td></tr></table></div></div>
+  </div>
+</figure>
+
+</div>
+</body>
+</html>
