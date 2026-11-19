@@ -1,0 +1,22 @@
+{
+  "name": "loja-eletronicos",
+  "version": "1.0.0",
+  "description": "YoshTech - loja de eletrônicos com API em Node.js (Express + Sequelize + SQL Server Express) e front-end integrado via fetch",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "seed": "node src/seed.js"
+  },
+  "author": "Kaike Yoshioka",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.2",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "msnodesqlv8": "^6.2.0",
+    "sequelize": "^6.37.8"
+  }
+}

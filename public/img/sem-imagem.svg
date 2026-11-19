@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" role="img" aria-labelledby="titulo-sem-imagem">
+  <title id="titulo-sem-imagem">Sem imagem</title>
+  <defs>
+    <clipPath id="moldura">
+      <rect x="80" y="55" width="240" height="190" rx="16"/>
+    </clipPath>
+  </defs>
+  <!-- fundo cinza claro -->
+  <rect width="400" height="300" fill="#EEF1F5"/>
+  <!-- ícone clássico de "imagem": quadro com sol e montanhas -->
+  <g clip-path="url(#moldura)">
+    <rect x="80" y="55" width="240" height="190" fill="#DFE4EB"/>
+    <circle cx="150" cy="113" r="24" fill="#FFFFFF"/>
+    <path d="M80 245 V222 L160 148 L206 192 L256 138 L320 204 V245 Z" fill="#FFFFFF"/>
+  </g>
+</svg>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="YoshTech: loja de eletrônicos com notebooks, periféricos, áudio, smartphones, games e muito mais.">
+  <meta name="theme-color" content="#1570ef">
+  <title>YoshTech · Loja de eletrônicos</title>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231570ef'/%3E%3Cpath d='M18 4 8 18h7l-2 10 11-15h-7z' fill='%23fdb022'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="vendor/bootstrap-icons/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="visually-hidden-focusable pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="site-header sticky-top">
+    <nav class="navbar navbar-expand-md" aria-label="Navegação principal">
+      <div class="container">
+        <a class="logo" href="index.html">
+          <span class="logo-icone" aria-hidden="true"><i class="bi bi-lightning-charge-fill"></i></span>
+          <span class="logo-nome" data-nome-loja>YoshTech</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal"
+                aria-controls="menu-principal" aria-expanded="false" aria-label="Abrir menu">
+          <i class="bi bi-list" aria-hidden="true"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu-principal">
+          <ul class="navbar-nav nav-principal ms-auto align-items-md-center">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Início</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#produtos">Produtos</a></li>
+            <li class="nav-item"><a class="nav-link" href="#creditos">Créditos</a></li>
+            <li class="nav-item ms-md-2">
+              <button type="button" class="btn btn-primary btn-sm btn-cabecalho" data-bs-toggle="modal" data-bs-target="#modal-produto">
+                <i class="bi bi-plus-lg" aria-hidden="true"></i> Novo produto
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="conteudo" tabindex="-1">
+    <h1 class="visually-hidden"><span data-nome-loja>YoshTech</span>: loja de eletrônicos</h1>
+
+    <section id="destaque" class="secao" aria-labelledby="titulo-destaque">
+      <div class="container">
+        <div class="cabecalho-secao">
+          <h2 id="titulo-destaque" class="titulo-secao">Destaque</h2>
+        </div>
+
+        <div class="painel-destaque">
+          <div id="carrossel-destaques" class="carousel slide carousel-destaque"
+               aria-roledescription="carrossel" aria-label="Produtos em destaque">
+            <div class="carousel-inner" id="slides-destaque"></div>
+
+            <button class="carousel-control-prev d-none" type="button" data-bs-target="#carrossel-destaques" data-bs-slide="prev">
+              <span class="seta-carrossel" aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+              <span class="visually-hidden">Slide anterior</span>
+            </button>
+            <button class="carousel-control-next d-none" type="button" data-bs-target="#carrossel-destaques" data-bs-slide="next">
+              <span class="seta-carrossel" aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+              <span class="visually-hidden">Próximo slide</span>
+            </button>
+
+            <div class="carousel-indicators d-none" id="indicadores-destaque"></div>
+
+            <button type="button" class="botao-pausar d-none" id="botao-pausar"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="produtos" class="secao" aria-labelledby="titulo-produtos">
+      <div class="container">
+        <div class="cabecalho-secao">
+          <div>
+            <h2 id="titulo-produtos" class="titulo-secao">Produtos</h2>
+            <p class="subtitulo-secao" id="resumo-produtos">Os lançamentos mais recentes da loja.</p>
+          </div>
+          <button type="button" class="btn btn-primary btn-novo" data-bs-toggle="modal" data-bs-target="#modal-produto">
+            <i class="bi bi-plus-lg" aria-hidden="true"></i> Novo produto
+          </button>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4 box-produtos" id="lista-produtos" aria-busy="true"></div>
+
+        <noscript>
+          <p class="estado">Ative o JavaScript do navegador para ver os produtos.</p>
+        </noscript>
+      </div>
+    </section>
+  </main>
+
+  <footer id="creditos" class="secao-creditos" aria-labelledby="titulo-creditos">
+    <div class="container">
+      <div class="cabecalho-secao">
+        <h2 id="titulo-creditos" class="titulo-secao">Créditos</h2>
+      </div>
+
+      <div class="row g-4 g-lg-5">
+        <div class="col-lg-7">
+          <h3 class="titulo-acento">Sobre</h3>
+          <p class="texto-sobre">
+            A <strong data-nome-loja>YoshTech</strong> é uma loja virtual de eletrônicos criada como trabalho acadêmico
+            do curso de Análise e Desenvolvimento de Software. Na vitrine você encontra notebooks, periféricos, fones, smartphones,
+            wearables, games, armazenamento e redes, tudo cadastrado e mantido por uma API REST.
+          </p>
+          <p class="texto-sobre">
+            O front-end usa HTML, Bootstrap 5.3 e JavaScript puro, e conversa com a API
+            (Node.js, Express, Sequelize e SQL Server) somente via <code>fetch</code>.
+          </p>
+        </div>
+
+        <div class="col-lg-5">
+          <h3 class="titulo-acento">Autoria</h3>
+          <div class="autoria">
+            <span class="autoria-avatar" aria-hidden="true"><i class="bi bi-person-fill"></i></span>
+            <dl class="autoria-dados">
+              <dt>Aluno:</dt><dd>Kaike Yoshioka</dd>
+              <dt>Curso:</dt><dd>Análise e Desenvolvimento de Software</dd>
+              <dt>Turma:</dt><dd>Noite</dd>
+            </dl>
+          </div>
+
+          <div class="redes">
+            <h3 class="titulo-acento">Redes Sociais:</h3>
+            <ul class="redes-lista">
+              <li><a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook (abre em nova aba)"><i class="bi bi-facebook" aria-hidden="true"></i></a></li>
+              <li><a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X, antigo Twitter (abre em nova aba)"><i class="bi bi-twitter-x" aria-hidden="true"></i></a></li>
+              <li><a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (abre em nova aba)"><i class="bi bi-instagram" aria-hidden="true"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="rodape">
+        <span>© <span data-ano>2026</span> <span data-nome-loja>YoshTech</span>. Trabalho acadêmico.</span>
+        <span>Feito com HTML, Bootstrap e <code>fetch</code>.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal fade" id="modal-produto" tabindex="-1" aria-labelledby="titulo-modal-produto" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <form class="modal-content" id="form-produto" novalidate>
+        <div class="modal-header">
+          <div class="d-flex align-items-center gap-3">
+            <span class="modal-icone" aria-hidden="true"><i class="bi bi-box-seam"></i></span>
+            <div>
+              <h2 class="modal-title" id="titulo-modal-produto">Novo produto</h2>
+              <p class="modal-subtitulo">Preencha os dados para colocar o produto na vitrine.</p>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="alert alert-danger erros-api d-none" role="alert"></div>
+
+          <p class="legenda-obrigatorio">Campos com <span class="obrigatorio">*</span> são obrigatórios.</p>
+
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label for="campo-nome" class="form-label">Nome <span class="obrigatorio" aria-hidden="true">*</span></label>
+              <input type="text" class="form-control" id="campo-nome" name="nome" maxlength="100" required
+                     autocomplete="off" placeholder="Ex.: Fone Bluetooth com cancelamento de ruído" aria-describedby="erro-campo-nome">
+              <div class="invalid-feedback" id="erro-campo-nome"></div>
+            </div>
+
+            <div class="col-md-4">
+              <label for="campo-codigo" class="form-label">Código <span class="obrigatorio" aria-hidden="true">*</span></label>
+              <input type="text" class="form-control" id="campo-codigo" name="codigo" maxlength="20" required
+                     autocomplete="off" spellcheck="false" placeholder="Ex.: FONE-001" aria-describedby="erro-campo-codigo">
+              <div class="invalid-feedback" id="erro-campo-codigo"></div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="campo-marca" class="form-label">Marca</label>
+              <input type="text" class="form-control" id="campo-marca" name="marca" maxlength="50"
+                     autocomplete="off" placeholder="Ex.: Sony" aria-describedby="erro-campo-marca">
+              <div class="invalid-feedback" id="erro-campo-marca"></div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="campo-categoria" class="form-label">Categoria <span class="obrigatorio" aria-hidden="true">*</span></label>
+              <select class="form-select" id="campo-categoria" name="categoria" required aria-describedby="erro-campo-categoria">
+                <option value="">Selecione uma categoria</option>
+              </select>
+              <div class="invalid-feedback" id="erro-campo-categoria"></div>
+            </div>
+
+            <div class="col-sm-4">
+              <label for="campo-preco" class="form-label">Preço <span class="obrigatorio" aria-hidden="true">*</span></label>
+              <div class="input-group has-validation">
+                <span class="input-group-text" aria-hidden="true">R$</span>
+                <input type="number" class="form-control" id="campo-preco" name="preco" min="0" max="99999999.99" step="0.01"
+                       inputmode="decimal" required placeholder="0,00" aria-describedby="erro-campo-preco">
+                <div class="invalid-feedback" id="erro-campo-preco"></div>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <label for="campo-estoque" class="form-label">Estoque <span class="obrigatorio" aria-hidden="true">*</span></label>
+              <input type="number" class="form-control" id="campo-estoque" name="quantidadeEstoque" min="0" step="1" value="0"
+                     inputmode="numeric" required aria-describedby="dica-estoque erro-campo-estoque">
+              <div class="invalid-feedback" id="erro-campo-estoque"></div>
+              <div class="form-text" id="dica-estoque">Unidades disponíveis.</div>
+            </div>
+
+            <div class="col-sm-4">
+              <label for="campo-avaliacao" class="form-label">Avaliação</label>
+              <input type="number" class="form-control" id="campo-avaliacao" name="avaliacao" min="0" max="5" step="0.1"
+                     inputmode="decimal" placeholder="Ex.: 4,5" aria-describedby="dica-avaliacao erro-campo-avaliacao">
+              <div class="invalid-feedback" id="erro-campo-avaliacao"></div>
+              <div class="form-text" id="dica-avaliacao">De 0 a 5 (opcional).</div>
+            </div>
+
+            <div class="col-12">
+              <div class="caixa-opcao form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="campo-destaque" name="destaque" aria-describedby="dica-destaque">
+                <div>
+                  <label class="form-check-label" for="campo-destaque">Mostrar no carrossel de destaque</label>
+                  <div class="form-text mt-0" id="dica-destaque">O produto aparece no topo da página inicial.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="campo-foto" class="form-label">Foto</label>
+              <div class="campo-foto">
+                <div class="foto-preview">
+                  <img src="img/sem-imagem.svg" alt="Pré-visualização da foto do produto" class="img-produto sem-foto">
+                </div>
+                <div class="campo-foto-controles">
+                  <input type="file" class="form-control" id="campo-foto" name="foto" accept="image/jpeg,image/png,image/webp"
+                         aria-describedby="dica-foto erro-campo-foto">
+                  <div class="invalid-feedback" id="erro-campo-foto"></div>
+                  <div class="form-text" id="dica-foto">JPG, PNG ou WEBP de até 8 MB. A foto é reduzida automaticamente antes do envio.</div>
+                  <button type="button" class="btn btn-link btn-sm descartar-foto d-none">
+                    <i class="bi bi-x-circle" aria-hidden="true"></i> Descartar foto escolhida
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="campo-descricao" class="form-label">Descrição</label>
+              <textarea class="form-control" id="campo-descricao" name="descricao" rows="4" maxlength="500"
+                        placeholder="Principais características, conexões, bateria, garantia…"
+                        aria-describedby="contador-descricao erro-campo-descricao"></textarea>
+              <div class="invalid-feedback" id="erro-campo-descricao"></div>
+              <div class="form-text text-end contador" id="contador-descricao">0/500</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="botao-salvar">
+            <span class="spinner-border spinner-border-sm d-none" aria-hidden="true"></span>
+            <span class="texto-botao">Salvar</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="area-toasts" class="toast-container position-fixed bottom-0 end-0 p-3" aria-live="polite" aria-atomic="false"></div>
+
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/scripts.js"></script>
+</body>
+</html>
