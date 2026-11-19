@@ -120,3 +120,22 @@ public/
   img/produtos/        fotos dos produtos (exemplo-* = fotos dos produtos de exemplo)
 ```
 
+
+## Parte 2: front-end integrado (gerenciamento e consultas)
+
+| Tela | Arquivo | O que faz |
+|---|---|---|
+| Gerenciar produtos | `public/gerenciar.html` + `js/gerenciar.js` | Tabela com filtros (busca, categoria, marca, faixa de preço, estoque, destaque, ordenação), cadastro, edição e exclusão |
+| Consultas | `public/consultas.html` + `js/consultas.js` | Resumo do estoque, produtos por categoria, estoque baixo e marcas, com a rota e o SQL de cada consulta |
+
+Novas rotas da API:
+
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/produtos?busca=&categoria=&marca=&precoMin=&precoMax=&estoque=&destaque=&ordenar=` | Lista com filtros (todos opcionais; 400 se inválidos). `estoque`: `disponivel`, `baixo`, `esgotado`. `ordenar`: `recentes`, `nome`, `preco-asc`, `preco-desc`, `estoque`, `avaliacao` |
+| GET | `/produtos/consultas/resumo` | Indicadores gerais do estoque |
+| GET | `/produtos/consultas/por-categoria` | `GROUP BY categoria` |
+| GET | `/produtos/consultas/estoque-baixo?limite=5` | Produtos com estoque até o limite |
+| GET | `/produtos/consultas/marcas` | `GROUP BY marca` |
+
+Documentação: wireframes em `docs/wireframes/wireframes.html` e relatório (modelo SBC, LaTeX) em `docs/relatorio/relatorio.tex`.
